@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
   <meta name="viewport" id="extViewportMeta" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>PARENT</title>
 
@@ -16,6 +17,7 @@
   iframe {
     width: 100vw;
     height: 100vh;
+
   }
 
   body{
@@ -34,12 +36,15 @@
 
 <body>
 
-<p>iframe 1 </p>
+<p>iframe 2 </p>
+<!-- <div style="width: 760px; height: 500px; overflow: scroll !important;-webkit-overflow-scrolling:touch !important;">
+    <object type="text/html" data="HTTP://YOURPAGE.URL" style="width:1000px; height:10000px;">
+    </object>       
+</div> -->
+<div style="overflow: scroll !important; -webkit-overflow-scrolling:touch !important;">
+<!-- <iframe id="wrapper" src="../zoomA/index.html" ></iframe> -->
 
-<div style="-webkit-overflow-scrolling:touch;">
-<!-- <iframe id="wrapper" src="../zoomA/index.html"></iframe> -->
-
-     <iframe style="-webkit-overflow-scrolling:touch;" id="wrapper" src="http://antonmaximus.github.io/zoom1/"></iframe>
+     <iframe  id="wrapper" src="http://antonmaximus.github.io/zoom1/"></iframe>
 
 </div>
 
