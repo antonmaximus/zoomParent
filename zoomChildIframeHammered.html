@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid purple;
+    border: 5px solid yellow;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -152,14 +152,16 @@ function resize (e, direction) {
     var minZoom = viewportWidth,
         maxZoom = viewportWidth * 2.5;
 
-    if( newWidth < minZoom) {
-        newWidth = minZoom;
-    } else if (newWidth > maxZoom) {
-        newWidth = maxZoom;
-    }
+    // if( newWidth < minZoom) {
+    //     newWidth = minZoom;
+    // } else if (newWidth > maxZoom) {
+    //     newWidth = maxZoom;
+    // }
 
     console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
-    grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', <br >deltaX: ' + e.deltaX + ', <br>delta: ' + delta
+    grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX
+        + ', <br>delta: ' + delta
+        + ', <br>minZoom: ' + minZoom + ', minZoom: ' + minZoom 
         + ', <br>newWidth: ' + newWidth + ', <br>imgWidth: ' + imgWidth); 
     wrapper.style.width = newWidth  + 'px';
     imgWidth0 = newWidth;
