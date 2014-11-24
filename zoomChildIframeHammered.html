@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid yellow;
+    border: 5px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -70,12 +70,14 @@ grannyLabel.innerHTML = 'woo hoo';
 var wrapper = document.getElementById('wrapper'), 
     targetImg = document.getElementById('targetImg'),
     thisBody = document.body,
+    thisHTML = document.documentElement,
     initialImgWidth = parseInt(getComputedStyle(wrapper).width),
     initialImgHeight = parseInt(getComputedStyle(wrapper).height),
     minZoom = initialImgWidth,
     maxZoom = minZoom * 2.5,
     rate = 0.33; // This slows down the response to pinch and pan
 
+console.log(thisHTML);
 
 
 granny.onload = function () {
@@ -177,6 +179,7 @@ function resize (e, direction) {
         + ', <br>newWidth: ' + newWidth + ', <br>imgWidth: ' + imgWidth); 
     wrapper.style.width = newWidth  + 'px';
     thisBody.style.width = newWidth + 'px';
+    thisHTML.style.width = newWidth + 'px';
 
     imgWidth0 = newWidth;
 
