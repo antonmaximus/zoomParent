@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid pink;
+    border: 5px solid yellow;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -112,7 +112,7 @@ granny.onload = function () {
 /* image.  We use this approach because default scrolling will not work correctly
 /* due to Hammer.js */
 function panImage (e) {
-    parentLabel.innerHTML = e.deltaY;
+    parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
     // These variables need to be local since orientation can change.
     var imgWidth = parseInt(getComputedStyle(wrapper).width),
         imgHeight = parseInt(getComputedStyle(wrapper).height),
