@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid yellow;
+    border: 5px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -130,11 +130,14 @@ function panImage (e) {
 
 
 
+    var imgWidth0 = parseInt(getComputedStyle(wrapper).width),
+        imgHeight = parseInt(getComputedStyle(wrapper).height);
 
 function resize (e, direction) {
     // These variables need to be local due to orientation changing
-    var imgWidth = parseInt(getComputedStyle(wrapper).width),
-        imgHeight = parseInt(getComputedStyle(wrapper).height),
+    // var imgWidth = parseInt(getComputedStyle(wrapper).width),
+    //     imgHeight = parseInt(getComputedStyle(wrapper).height),
+    var imgWidth = imgWidth0,
         viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
         viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
@@ -163,12 +166,12 @@ function resize (e, direction) {
 
 
     /* Now reposition top and left according to initial ratio. */
-    var newHeight = newWidth * (imgHeight/imgWidth);  // This is the new height in theory.
-    var newLeft = ratioLeft * newWidth,
-        newTop = ratioTop * newHeight;
+    // var newHeight = newWidth * (imgHeight/imgWidth);  // This is the new height in theory.
+    // var newLeft = ratioLeft * newWidth,
+    //     newTop = ratioTop * newHeight;
 
-    targetImg.style.left = newLeft + 'px';
-    targetImg.style.top = newTop + 'px';
+    // targetImg.style.left = newLeft + 'px';
+    // targetImg.style.top = newTop + 'px';
 
 }
 
