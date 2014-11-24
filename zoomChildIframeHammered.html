@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid pink;
+    border: 5px solid yellow;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -176,8 +176,10 @@ function resize (e, direction) {
         + ', <br>minZoom: ' + minZoom + ', maxZoom: ' + maxZoom 
         + ', <br>newWidth: ' + newWidth + ', <br>imgWidth: ' + imgWidth); 
     wrapper.style.width = newWidth  + 'px';
+    thisBody.style.width = newWidth + 'px';
+
     imgWidth0 = newWidth;
-    // thisBody.style.width = newWidth + 'px';
+
 
 
     /* Now reposition top and left according to initial ratio. */
