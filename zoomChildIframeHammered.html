@@ -24,7 +24,7 @@ html, body {
 }
 
 #targetImg {
-    width: 100%;
+    width: 200%;
 }
 </style>
 </head>
@@ -49,46 +49,21 @@ var parentLabel = parent.document.getElementById('parentLabel');
 console.log(pops);
 console.log(parentLabel);
 
+pops.onload = function () {
+    // Once content is available, get body
+    var iframeBody = pops.contentWindow.document.body;
+    var hammertime = new Hammer(iframeBody);
 
-var hammertime = new Hammer(pops);
+    // Register gestures as normal
+    hammertime.on('pan', panImage);
+    hammertime.on('doubletap', panImage);
+    hammertime.on('tap', panImage);
 
-hammertime.get('pinch').set({ enable: true }); //Pinch is disabled by default
-
-// Items below are enabled by default
-// hammertime.get('pan').set({ enable: false });  
-// hammertime.get('tap').set({ enable: false });
-hammertime.get('press').set({ enable: false });
-hammertime.get('rotate').set({ enable: false });
-hammertime.get('swipe').set({ enable: false });
-
-hammertime.on('pan', panImage);
-hammertime.on('doubletap', panImage);
+}
 
 
 
-var wrapper = document.getElementById('wrapper'), 
-    targetImg = document.getElementById('targetImg'),
-    thisBody = document.body,
-    imgNatW = targetImg.naturalWidth,
-    rate = 0.33; // This slows down the response to pinch and pan
 
-var minZoom = parseInt(getComputedStyle(wrapper).width), //This will be the initial Width  on load
-    maxZoom = minZoom * 2.5;
-
-var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    // var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-var wrapperWidth = parseInt(getComputedStyle(wrapper).width);
-
-
-console.log('viewW: ' + viewportWidth + ", viewH: " + viewportHeight );
-console.log('minZoom: ' + minZoom + ', maxZoom: ' + maxZoom);
-
-parentLabel.innerHTML = 'what now';
-
-/* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
-/* image.  We use this approach because default scrolling will not work correctly
-/* due to Hammer.js */
 function panImage (e) {
     parentLabel.innerHTML = e.deltaX;
     // These variables need to be local since orientation can change.
@@ -99,7 +74,7 @@ function panImage (e) {
         frameHeight = /*window.frameElement.offsetHeight||*/ Math.max(document.documentElement.clientWidth, window.innerHeight || 0);
 
 
-
+    var rate = 0.5;
     // Configure Horizontal Pan
     var minLeft = 0,
         maxLeft = frameWidth - imgWidth,
@@ -128,7 +103,6 @@ function panImage (e) {
     targetImg.style.top = newTop + 'px';
 
 }
-
 
 </script>
 
