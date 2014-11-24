@@ -13,19 +13,24 @@ html, body, div, img {
 }
 
 html, body {
-    background-color: pink;
+    background-color: purple;
     border: 0px solid red;
 }
 
 #wrapper {
-    border: 0px solid green;
-    /*position: relative;*/
-    width: 100%;
+    border: 5px solid purple;
+    position: relative;
+/*    height: 100vh;
+    width: 100vw;*/
 }
 
 #targetImg {
-    width: 200%;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
+
 </style>
 </head>
 
@@ -38,7 +43,7 @@ html, body {
 </div>
 
 <script src="./hammer.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
 
 
 <script type="text/javascript">
@@ -46,8 +51,14 @@ html, body {
 
 var pops = parent.document.getElementById('iframeElement');
 var parentLabel = parent.document.getElementById('parentLabel');
+var grannyLabel = window.top.document.getElementById('grannyLabel');
 console.log(pops);
 console.log(parentLabel);
+console.log(grannyLabel);
+
+grannyLabel.innerHTML = 'woo hoo';
+
+
 
 pops.onload = function () {
     // Once content is available, get body
@@ -59,13 +70,24 @@ pops.onload = function () {
     hammertime.on('doubletap', panImage);
     hammertime.on('tap', panImage);
 
+    hammertime.get('pinch').set({ enable: true }); //Pinch is disabled by default
+    hammertime.on('pinchin', function(e){ resize(e, -1); });
+    hammertime.on('pinchout', function(e){ resize(e, 1); });
+
 }
 
 
 
+var wrapper = document.getElementById('wrapper'), 
+    targetImg = document.getElementById('targetImg'),
+    thisBody = document.body,
+    rate = 0.33; // This slows down the response to pinch and pan
 
+/* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
+/* image.  We use this approach because default scrolling will not work correctly
+/* due to Hammer.js */
 function panImage (e) {
-    parentLabel.innerHTML = e.deltaX;
+    parentLabel.innerHTML = e.deltaY;
     // These variables need to be local since orientation can change.
     var imgWidth = parseInt(getComputedStyle(wrapper).width),
         imgHeight = parseInt(getComputedStyle(wrapper).height),
@@ -74,7 +96,7 @@ function panImage (e) {
         frameHeight = /*window.frameElement.offsetHeight||*/ Math.max(document.documentElement.clientWidth, window.innerHeight || 0);
 
 
-    var rate = 0.5;
+
     // Configure Horizontal Pan
     var minLeft = 0,
         maxLeft = frameWidth - imgWidth,
@@ -100,6 +122,47 @@ function panImage (e) {
     } else if (newTop < maxTop) {
         newTop = maxTop;
     }
+    targetImg.style.top = newTop + 'px';
+
+}
+
+
+
+
+function resize (e, direction) {
+    // These variables need to be local due to orientation changing
+    var imgWidth = parseInt(getComputedStyle(wrapper).width),
+        imgHeight = parseInt(getComputedStyle(wrapper).height),
+        viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+        viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    // Save ratio for keeping position intact
+    var ratioLeft = parseInt(getComputedStyle(targetImg).left) / imgWidth,
+        ratioTop = parseInt(getComputedStyle(targetImg).top) / imgHeight;   
+
+
+    var delta = direction * Math.sqrt( (e.deltaY * e.deltaY) + (e.deltaX * e.deltaX) ); // Calculus formula
+    var newWidth = imgWidth + (delta * rate);  // Slow the change down
+
+    var minZoom = viewportWidth,
+        maxZoom = viewportWidth * 2.5;
+
+    if( newWidth < minZoom) {
+        newWidth = minZoom;
+    } else if (newWidth > maxZoom) {
+        newWidth = maxZoom;
+    }
+
+    wrapper.style.width = newWidth  + 'px';
+    // thisBody.style.width = newWidth + 'px';
+
+
+    /* Now reposition top and left according to initial ratio. */
+    var newHeight = newWidth * (imgHeight/imgWidth);  // This is the new height in theory.
+    var newLeft = ratioLeft * newWidth,
+        newTop = ratioTop * newHeight;
+
+    targetImg.style.left = newLeft + 'px';
     targetImg.style.top = newTop + 'px';
 
 }
