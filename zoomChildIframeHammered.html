@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid yellow;
+    border: 5px solid green;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -59,13 +59,19 @@ console.log(grannyLabel);
 
 grannyLabel.innerHTML = 'woo hoo';
 
+var wrapper = document.getElementById('wrapper'), 
+    targetImg = document.getElementById('targetImg'),
+    thisBody = document.body,
+    rate = 0.33; // This slows down the response to pinch and pan
+
 
 
 granny.onload = function () {
 
         console.log('all aboard');
         // Once content is available, get body
-        var iframeBody = granny.contentWindow.document.body;
+        // var iframeBody = granny.contentWindow.document.body;
+        var iframeBody = wrapper;
         var hammertime = new Hammer(iframeBody);
 
         // Register gestures as normal
@@ -80,10 +86,6 @@ granny.onload = function () {
 
 
 
-var wrapper = document.getElementById('wrapper'), 
-    targetImg = document.getElementById('targetImg'),
-    thisBody = document.body,
-    rate = 0.33; // This slows down the response to pinch and pan
 
 /* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
 /* image.  We use this approach because default scrolling will not work correctly
@@ -161,7 +163,7 @@ function resize (e, direction) {
     console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
     grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX
         + ', <br>delta: ' + delta
-        + ', <br>minZoom: ' + minZoom + ', minZoom: ' + minZoom 
+        + ', <br>minZoom: ' + minZoom + ', maxZoom: ' + maxZoom 
         + ', <br>newWidth: ' + newWidth + ', <br>imgWidth: ' + imgWidth); 
     wrapper.style.width = newWidth  + 'px';
     imgWidth0 = newWidth;
