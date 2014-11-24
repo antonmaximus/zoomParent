@@ -13,7 +13,7 @@ html, body, div, img {
 }
 
 #wrapper {
-    border: 5px solid pink;
+    border: 5px solid red;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -200,17 +200,17 @@ function panImage (e) {
         posTop = parseInt(getComputedStyle(targetImg).top),
         newTop  =  posTop + (e.deltaY * rate);
 
-    if(wrapperHeight < viewingHeight || newTop > minTop) {
-        newTop = minTop ;
-    } else if (newTop < maxTop) {
-        newTop = maxTop;
-    }
+    // if(wrapperHeight < viewingHeight || newTop > minTop) {
+    //     newTop = minTop ;
+    // } else if (newTop < maxTop) {
+    //     newTop = maxTop;
+    // }
     targetImg.style.top = newTop + 'px';
 
 
-parentLabel.innerHTML = ('wrapperHeight: ' + wrapperHeight
-    + '<br> deltaY: ' + deltaY
-    + '<br> posTop: ' + posTop + ', newTop: ' + newTop);
+    parentLabel.innerHTML = ('wrapperHeight: ' + wrapperHeight
+        + '<br> deltaY: ' + deltaY
+        + '<br> posTop: ' + posTop + ', newTop: ' + newTop);
 
 
 }
