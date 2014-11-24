@@ -45,7 +45,9 @@ html, body {
 
 
 var pops = parent.document.getElementById('iframeElement');
+var parentLabel = parent.document.getElementById('parentLabel');
 console.log(pops);
+console.log(parentLabel);
 
 
 var hammertime = new Hammer(pops);
@@ -59,7 +61,8 @@ hammertime.get('press').set({ enable: false });
 hammertime.get('rotate').set({ enable: false });
 hammertime.get('swipe').set({ enable: false });
 
-
+hammertime.on('pan', panImage);
+hammertime.on('doubletap', panImage);
 
 
 
@@ -81,12 +84,13 @@ var wrapperWidth = parseInt(getComputedStyle(wrapper).width);
 console.log('viewW: ' + viewportWidth + ", viewH: " + viewportHeight );
 console.log('minZoom: ' + minZoom + ', maxZoom: ' + maxZoom);
 
+parentLabel.innerHTML = 'what now';
 
 /* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
 /* image.  We use this approach because default scrolling will not work correctly
 /* due to Hammer.js */
 function panImage (e) {
-    jQuery('#blue1').html('panActive');
+    parentLabel.innerHTML = e.deltaX;
     // These variables need to be local since orientation can change.
     var imgWidth = parseInt(getComputedStyle(wrapper).width),
         imgHeight = parseInt(getComputedStyle(wrapper).height),
