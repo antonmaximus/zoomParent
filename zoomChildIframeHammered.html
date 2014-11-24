@@ -13,7 +13,7 @@ html, body, div, img {
 }
 
 #wrapper {
-    border: 5px solid green;
+    border: 5px solid blue;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -84,6 +84,9 @@ var wrapper = document.getElementById('wrapper'),
 var imgWidthBeforeResize = initialImgWidth,
     imgHeightBeforeResize = initialImgHeight;
 
+var viewingWidth = initialImgWidth,
+    viewingHeight = initialImgHeight;
+
 console.log(thisHTML);
 
 function updateParentLabel () {
@@ -123,10 +126,8 @@ granny.onload = function () {
 function resize (e, direction) {
     // These variables need to be local due to orientation changing
     var wrapperWidth = parseInt(getComputedStyle(wrapper).width),
-        wrapperHeight = parseInt(getComputedStyle(wrapper).height),
+        wrapperHeight = parseInt(getComputedStyle(wrapper).height);
     // var wrapperWidth = imgWidthBeforeResize,
-        viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-        viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
     // Save ratio for keeping position intact
     var ratioLeft = parseInt(getComputedStyle(targetImg).left) / imgWidthBeforeResize,
@@ -175,39 +176,35 @@ function resize (e, direction) {
 function panImage (e) {
     // parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
     // These variables need to be local since orientation can change.
-    var mgWidth = parseInt(getComputedStyle(wrapper).width),
-        imgHeight = parseInt(getComputedStyle(wrapper).height),
-        // frameWidth & frameHeight: Use parent iframe's size by default.  Use viewport's size as fallback.
-        frameWidth = /*window.frameElement.offsetWidth ||*/ Math.max(document.documentElement.clientWidth, window.innerWidth || 0), 
-        frameHeight = /*window.frameElement.offsetHeight||*/ Math.max(document.documentElement.clientWidth, window.innerHeight || 0);
+    var wrapperWidth = parseInt(getComputedStyle(wrapper).width),
+        wrapperHeight = parseInt(getComputedStyle(wrapper).height);
 
 
+    // // Configure Horizontal Pan
+    // var minLeft = 0,
+    //     maxLeft = viewingWidth - wrapperWidth,
+    //     posLeft = parseInt(getComputedStyle(targetImg).left),
+    //     newLeft  =  posLeft + (e.deltaX * rate);
 
-    // Configure Horizontal Pan
-    var minLeft = 0,
-        maxLeft = frameWidth - imgWidth,
-        posLeft = parseInt(getComputedStyle(targetImg).left),
-        newLeft  =  posLeft + (e.deltaX * rate);
-
-    if(imgWidth < frameWidth || newLeft > minLeft) {
-        newLeft = minLeft ;
-    } else if (newLeft < maxLeft) {
-        newLeft = maxLeft;
-    }
-    targetImg.style.left = newLeft + 'px';
+    // if(imgWidth < frameWidth || newLeft > minLeft) {
+    //     newLeft = minLeft ;
+    // } else if (newLeft < maxLeft) {
+    //     newLeft = maxLeft;
+    // }
+    // targetImg.style.left = newLeft + 'px';
 
 
     // Configure Vertical Pan
     var minTop = 0,
-        maxTop = frameHeight - imgHeight,
+        maxTop = viewingHeight - wrapperHeight,
         posTop = parseInt(getComputedStyle(targetImg).top),
         newTop  =  posTop + (e.deltaY * rate);
 
-    if(imgHeight < frameHeight || newTop > minTop) {
-        newTop = minTop ;
-    } else if (newTop < maxTop) {
-        newTop = maxTop;
-    }
+    // if(wrapperHeight < viewingHeight || newTop > minTop) {
+    //     newTop = minTop ;
+    // } else if (newTop < maxTop) {
+    //     newTop = maxTop;
+    // }
     targetImg.style.top = newTop + 'px';
 
 
