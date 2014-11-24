@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1">
+
+<title>Child: Hammered Iframe</title>
+<style>
+
+html, body, div, img {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+html, body {
+    background-color: pink;
+    border: 0px solid red;
+}
+
+#wrapper {
+    border: 0px solid green;
+    /*position: relative;*/
+    width: 100%;
+}
+
+#targetImg {
+    width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+
+<div id='wrapper' >
+    <img id='targetImg' src="./Travel_MoneyTips.png" alt="" />
+    <!-- <img id='targetImg' src="http://2.bp.blogspot.com/-VQJMK8PRnI0/UjYaglEkV5I/AAAAAAAAACg/N2MkW6iorr0/s1600/30192_1600x1200-4-cute-cats.jpg" /> -->
+</div>
+
+<script src="./hammer.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+
+
+var pops = parent.document.getElementById('iframeElement');
+console.log(pops);
+
+
+var hammertime = new Hammer(pops);
+
+hammertime.get('pinch').set({ enable: true }); //Pinch is disabled by default
+
+// Items below are enabled by default
+// hammertime.get('pan').set({ enable: false });  
+// hammertime.get('tap').set({ enable: false });
+hammertime.get('press').set({ enable: false });
+hammertime.get('rotate').set({ enable: false });
+hammertime.get('swipe').set({ enable: false });
+
+
+
+
+
+var wrapper = document.getElementById('wrapper'), 
+    targetImg = document.getElementById('targetImg'),
+    thisBody = document.body,
+    imgNatW = targetImg.naturalWidth,
+    rate = 0.33; // This slows down the response to pinch and pan
+
+var minZoom = parseInt(getComputedStyle(wrapper).width), //This will be the initial Width  on load
+    maxZoom = minZoom * 2.5;
+
+var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    // var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+var wrapperWidth = parseInt(getComputedStyle(wrapper).width);
+
+
+console.log('viewW: ' + viewportWidth + ", viewH: " + viewportHeight );
+console.log('minZoom: ' + minZoom + ', maxZoom: ' + maxZoom);
+
+
+/* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
+/* image.  We use this approach because default scrolling will not work correctly
+/* due to Hammer.js */
+function panImage (e) {
+    jQuery('#blue1').html('panActive');
+    // These variables need to be local since orientation can change.
+    var imgWidth = parseInt(getComputedStyle(wrapper).width),
+        imgHeight = parseInt(getComputedStyle(wrapper).height),
+        // frameWidth & frameHeight: Use parent iframe's size by default.  Use viewport's size as fallback.
+        frameWidth = /*window.frameElement.offsetWidth ||*/ Math.max(document.documentElement.clientWidth, window.innerWidth || 0), 
+        frameHeight = /*window.frameElement.offsetHeight||*/ Math.max(document.documentElement.clientWidth, window.innerHeight || 0);
+
+
+
+    // Configure Horizontal Pan
+    var minLeft = 0,
+        maxLeft = frameWidth - imgWidth,
+        posLeft = parseInt(getComputedStyle(targetImg).left),
+        newLeft  =  posLeft + (e.deltaX * rate);
+
+    if(imgWidth < frameWidth || newLeft > minLeft) {
+        newLeft = minLeft ;
+    } else if (newLeft < maxLeft) {
+        newLeft = maxLeft;
+    }
+    targetImg.style.left = newLeft + 'px';
+
+
+    // Configure Vertical Pan
+    var minTop = 0,
+        maxTop = frameHeight - imgHeight,
+        posTop = parseInt(getComputedStyle(targetImg).top),
+        newTop  =  posTop + (e.deltaY * rate);
+
+    if(imgHeight < frameHeight || newTop > minTop) {
+        newTop = minTop ;
+    } else if (newTop < maxTop) {
+        newTop = maxTop;
+    }
+    targetImg.style.top = newTop + 'px';
+
+}
+
+
+</script>
+
+
+
+
+</body>
+
+</html>
