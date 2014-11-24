@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid pink;
+    border: 5px solid red;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -127,9 +127,9 @@ granny.onload = function () {
 
 function resize (e, direction) {
     // These variables need to be local due to orientation changing
-    // var imgWidth = parseInt(getComputedStyle(wrapper).width),
-    //     imgHeight = parseInt(getComputedStyle(wrapper).height),
-    var imgWidth = imgWidthBeforeResize,
+    var imgWidth = parseInt(getComputedStyle(wrapper).width),
+        imgHeight = parseInt(getComputedStyle(wrapper).height),
+    // var imgWidth = imgWidthBeforeResize,
         viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
         viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
@@ -180,7 +180,7 @@ function resize (e, direction) {
 function panImage (e) {
     // parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
     // These variables need to be local since orientation can change.
-    var imgWidth = parseInt(getComputedStyle(wrapper).width),
+    var mgWidth = parseInt(getComputedStyle(wrapper).width),
         imgHeight = parseInt(getComputedStyle(wrapper).height),
         // frameWidth & frameHeight: Use parent iframe's size by default.  Use viewport's size as fallback.
         frameWidth = /*window.frameElement.offsetWidth ||*/ Math.max(document.documentElement.clientWidth, window.innerWidth || 0), 
