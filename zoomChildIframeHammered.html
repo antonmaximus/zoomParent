@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid yellow;
+    border: 5px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -66,10 +66,12 @@ console.log(grannyLabel);
 
 
 
-/* NOTE: As of Nov 2014, do not rely on viewport for iOS devices.
-    iOS does not recognize the screen as the viewport for pages
+/* NOTE: As of Nov 2014, do not rely on `document.documentElement.clientWidth` 
+    and `window.innerWidth` as the viewport size for iOS devices when inside iframes.
+    iOS does not recognize the screen as the viewport size for objects
     inside iframes, and it uses the entire iframe dimension 
-    as the viewport for objects inside iframes.
+    as the viewport for objects inside iframes. In iOS iframes change sizes
+    to accommodate all of its contents -- a behavior different in iOS devices.
 */
 
 
@@ -88,9 +90,13 @@ var imgWidthBeforeResize = initialImgWidth,
     imgHeightBeforeResize = initialImgHeight;
 
 console.log(thisHTML);
-parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth 
-    + '<br> innerWidth: ' + window.innerWidth);
 
+function updateParentLabel () {
+    parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth + ', innerWidth: ' + window.innerWidth
+    + '<br> initialWidth: ' + initialImgWidth + ', initialHeight: ' + initialImgHeight);
+}
+
+updateParentLabel();
 
 granny.onload = function () {
 
@@ -154,6 +160,7 @@ function resize (e, direction) {
     imgWidthBeforeResize = newWidth;
 
 
+    updateParentLabel();
 
     /* Now reposition top and left according to initial ratio. */
     // var newHeight = newWidth * (imgHeight/imgWidth);  // This is the new height in theory.
@@ -209,8 +216,8 @@ function panImage (e) {
     targetImg.style.top = newTop + 'px';
 
 
-parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth 
-    + '<br> innerWidth: ' + window.innerWidth);
+// parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth 
+//     + '<br> innerWidth: ' + window.innerWidth);
 
 
 }
