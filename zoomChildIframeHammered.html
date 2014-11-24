@@ -13,7 +13,7 @@ html, body, div, img {
 }
 
 #wrapper {
-    border: 5px solid yellow;
+    border: 2px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -26,8 +26,8 @@ html, body, div, img {
     width: 100%;
 }
 
-html {   border: 3px solid red; } 
-body {   border: 3px solid white; }
+html {   border: 2px solid red; } 
+body {   border: 2px solid white; }
 
 </style>
 </head>
@@ -46,17 +46,6 @@ body {   border: 3px solid white; }
 
 <script type="text/javascript">
 
-
-var pops = parent.document.getElementById('iframeElement');
-var parentLabel = parent.document.getElementById('parentLabel');
-var granny = window.top.document.getElementById('iframeElement');
-var grannyLabel = window.top.document.getElementById('grannyLabel');
-console.log(pops);
-console.log(parentLabel);
-console.log(grannyLabel);
-
-
-
 /* NOTE: As of Nov 2014, do not rely on `document.documentElement.clientWidth` 
     and `window.innerWidth` as the viewport size for iOS devices when inside iframes.
     iOS does not recognize the screen as the viewport size for objects
@@ -66,155 +55,162 @@ console.log(grannyLabel);
 */
 
 
-var wrapper = document.getElementById('wrapper'), 
-    targetImg = document.getElementById('targetImg'),
-    thisBody = document.body,
-    thisHTML = document.documentElement,
-    initialImgWidth = parseInt(getComputedStyle(wrapper).width),
-    initialImgHeight = parseInt(getComputedStyle(wrapper).height),
-    minZoom = initialImgWidth,
-    maxZoom = minZoom * 2.5,
-    rate = 0.33; // This slows down the response to pinch and pan
+window.onload = function () {
+    var pops = parent.document.getElementById('iframeElement');
+    var parentLabel = parent.document.getElementById('parentLabel');
+    var granny = window.top.document.getElementById('iframeElement');
+    var grannyLabel = window.top.document.getElementById('grannyLabel');
+    console.log(pops);
+    console.log(parentLabel);
+    console.log(grannyLabel);
+
+    pops.style.width = '330px';
+    pops.style.height = '280px';
 
 
-var imgWidthBeforeResize = initialImgWidth,
-    imgHeightBeforeResize = initialImgHeight;
-
-var viewingWidth = initialImgWidth,
-    viewingHeight = initialImgHeight;
-
-console.log(thisHTML);
-
-function updateParentLabel () {
-    parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth + ', innerWidth: ' + window.innerWidth
-    + '<br> initialWidth: ' + initialImgWidth + ', initialHeight: ' + initialImgHeight);
-}
-
-updateParentLabel();
-
-granny.onload = function () {
-
-        console.log('all aboard');
-        // Once content is available, get body
-        // var iframeBody = granny.contentWindow.document.body;
-        var iframeBody = wrapper;
-        var hammertime = new Hammer(iframeBody);
-
-        // Register gestures as normal
-        hammertime.on('pan', panImage);
-        hammertime.on('doubletap', panImage);
-        hammertime.on('tap', panImage);
-
-        hammertime.get('pinch').set({ enable: true }); //Pinch is disabled by default
-        hammertime.on('pinchin', function(e){ resize(e, -1); });
-        hammertime.on('pinchout', function(e){ resize(e, 1); });
-}
+    var wrapper = document.getElementById('wrapper'), 
+        targetImg = document.getElementById('targetImg'),
+        thisBody = document.body,
+        thisHTML = document.documentElement,
+        initialImgWidth = parseInt(getComputedStyle(wrapper).width),
+        initialImgHeight = parseInt(getComputedStyle(wrapper).height),
+        minZoom = initialImgWidth,
+        maxZoom = minZoom * 2.5,
+        rate = 0.33; // This slows down the response to pinch and pan
 
 
+    var imgWidthBeforeResize = initialImgWidth,
+        imgHeightBeforeResize = initialImgHeight;
 
+    var viewingWidth = initialImgWidth,
+        viewingHeight = initialImgHeight;
 
+    console.log(thisHTML);
 
-
-
-
-
-
-function resize (e, direction) {
-    // These variables need to be local due to orientation changing
-    var wrapperWidth = parseInt(getComputedStyle(wrapper).width),
-        wrapperHeight = parseInt(getComputedStyle(wrapper).height);
-    // var wrapperWidth = imgWidthBeforeResize,
-
-    // Save ratio for keeping position intact
-    var ratioLeft = parseInt(getComputedStyle(targetImg).left) / imgWidthBeforeResize,
-        ratioTop = parseInt(getComputedStyle(targetImg).top) / imgHeightBeforeResize;   
-
-
-    var delta = direction * Math.sqrt( (e.deltaY * e.deltaY) + (e.deltaX * e.deltaX) ); // Calculus formula
-    var newWidth = wrapperWidth + (delta * rate);  // Slow the change down
-
-    if( newWidth < minZoom) {
-        newWidth = minZoom;
-    } else if (newWidth > maxZoom) {
-        newWidth = maxZoom;
+    function updateParentLabel () {
+        parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth + ', innerWidth: ' + window.innerWidth
+        + '<br> initialWidth: ' + initialImgWidth + ', initialHeight: ' + initialImgHeight);
     }
 
-    console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
-    grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX
-        + ', <br>delta: ' + delta
-        // + ', <br>frameWidth: ' + frameWidth + ', frameHeight: ' + frameHeight
-        + ', <br>minZoom: ' + minZoom + ', maxZoom: ' + maxZoom 
-        + ', <br>newWidth: ' + newWidth + ', <br>wrapperWidth: ' + wrapperWidth); 
-    wrapper.style.width = newWidth  + 'px';
-    thisBody.style.width = newWidth + 'px';
-    thisHTML.style.width = newWidth + 'px';
-
-    imgWidthBeforeResize = newWidth;
+    updateParentLabel();
 
 
-    // updateParentLabel();
+    console.log('all aboard');
+    // Once content is available, get body
+    // var iframeBody = granny.contentWindow.document.body;
+    var hammertime = new Hammer(wrapper);
 
-    /* Now reposition top and left according to initial ratio. */
-    // var newHeight = newWidth * (imgHeight/imgWidth);  // This is the new height in theory.
-    // var newLeft = ratioLeft * newWidth,
-    //     newTop = ratioTop * newHeight;
+    // Register gestures as normal
+    hammertime.on('pan', panImage);
+    hammertime.on('doubletap', panImage);
+    hammertime.on('tap', panImage);
 
-    // targetImg.style.left = newLeft + 'px';
-    // targetImg.style.top = newTop + 'px';
-
-}
+    hammertime.get('pinch').set({ enable: true }); //Pinch is disabled by default
+    hammertime.on('pinchin', function(e){ resize(e, -1); });
+    hammertime.on('pinchout', function(e){ resize(e, 1); });
 
 
 
-/* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
-/* image.  We use this approach because default scrolling will not work correctly
-/* due to Hammer.js */
-function panImage (e) {
-    // parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
-    // These variables need to be local since orientation can change.
-    var wrapperWidth = parseInt(getComputedStyle(wrapper).width),
-        wrapperHeight = parseInt(getComputedStyle(wrapper).height);
-
-
-    // // Configure Horizontal Pan
-    // var minLeft = 0,
-    //     maxLeft = viewingWidth - wrapperWidth,
-    //     posLeft = parseInt(getComputedStyle(targetImg).left),
-    //     newLeft  =  posLeft + (e.deltaX * rate);
-
-    // if(imgWidth < frameWidth || newLeft > minLeft) {
-    //     newLeft = minLeft ;
-    // } else if (newLeft < maxLeft) {
-    //     newLeft = maxLeft;
-    // }
-    // targetImg.style.left = newLeft + 'px';
-
-
-    // Configure Vertical Pan
-    var minTop = 0,
-        maxTop = viewingHeight - wrapperHeight,
-        posTop = parseInt(getComputedStyle(targetImg).top),
-        newTop  =  posTop + (e.deltaY * rate);
-
-    parentLabel.innerHTML  = ('wrapperHeight: ' + wrapperHeight
-        + '<br> deltaY: ' + e.deltaY
-        + '<br> posTop: ' + posTop + ', newTop: ' + newTop);
 
 
 
-    if(wrapperHeight < viewingHeight || newTop > minTop) {
-        newTop = minTop ;
-    } else if (newTop < maxTop) {
-        newTop = maxTop;
+
+
+
+
+
+    function resize (e, direction) {
+        // These variables need to be local due to orientation changing
+        var wrapperWidth = parseInt(getComputedStyle(wrapper).width),
+            wrapperHeight = parseInt(getComputedStyle(wrapper).height);
+        // var wrapperWidth = imgWidthBeforeResize,
+
+        // Save ratio for keeping position intact
+        var ratioLeft = parseInt(getComputedStyle(targetImg).left) / imgWidthBeforeResize,
+            ratioTop = parseInt(getComputedStyle(targetImg).top) / imgHeightBeforeResize;   
+
+
+        var delta = direction * Math.sqrt( (e.deltaY * e.deltaY) + (e.deltaX * e.deltaX) ); // Calculus formula
+        var newWidth = wrapperWidth + (delta * rate);  // Slow the change down
+
+        if( newWidth < minZoom) {
+            newWidth = minZoom;
+        } else if (newWidth > maxZoom) {
+            newWidth = maxZoom;
+        }
+
+        console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
+        grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX
+            + ', <br>delta: ' + delta
+            // + ', <br>frameWidth: ' + frameWidth + ', frameHeight: ' + frameHeight
+            + ', <br>minZoom: ' + minZoom + ', maxZoom: ' + maxZoom 
+            + ', <br>newWidth: ' + newWidth + ', <br>wrapperWidth: ' + wrapperWidth); 
+        wrapper.style.width = newWidth  + 'px';
+        thisBody.style.width = newWidth + 'px';
+        thisHTML.style.width = newWidth + 'px';
+
+        imgWidthBeforeResize = newWidth;
+
+
+        // updateParentLabel();
+
+        /* Now reposition top and left according to initial ratio. */
+        // var newHeight = newWidth * (imgHeight/imgWidth);  // This is the new height in theory.
+        // var newLeft = ratioLeft * newWidth,
+        //     newTop = ratioTop * newHeight;
+
+        // targetImg.style.left = newLeft + 'px';
+        // targetImg.style.top = newTop + 'px';
+
     }
-    targetImg.style.top = newTop + 'px';
 
 
 
+    /* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
+    /* image.  We use this approach because default scrolling will not work correctly
+    /* due to Hammer.js */
+    function panImage (e) {
+        // parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
+        // These variables need to be local since orientation can change.
+        var wrapperWidth = parseInt(getComputedStyle(wrapper).width),
+            wrapperHeight = parseInt(getComputedStyle(wrapper).height);
+
+
+        // // Configure Horizontal Pan
+        // var minLeft = 0,
+        //     maxLeft = viewingWidth - wrapperWidth,
+        //     posLeft = parseInt(getComputedStyle(targetImg).left),
+        //     newLeft  =  posLeft + (e.deltaX * rate);
+
+        // if(imgWidth < frameWidth || newLeft > minLeft) {
+        //     newLeft = minLeft ;
+        // } else if (newLeft < maxLeft) {
+        //     newLeft = maxLeft;
+        // }
+        // targetImg.style.left = newLeft + 'px';
+
+
+        // Configure Vertical Pan
+        var minTop = 0,
+            maxTop = viewingHeight - wrapperHeight,
+            posTop = parseInt(getComputedStyle(targetImg).top),
+            newTop  =  posTop + (e.deltaY * rate);
+
+        parentLabel.innerHTML  = ('wrapperHeight: ' + wrapperHeight
+            + '<br> deltaY: ' + e.deltaY
+            + '<br> posTop: ' + posTop + ', newTop: ' + newTop);
+
+
+
+        if(wrapperHeight < viewingHeight || newTop > minTop) {
+            newTop = minTop ;
+        } else if (newTop < maxTop) {
+            newTop = maxTop;
+        }
+        targetImg.style.top = newTop + 'px';
+    }
 
 }
-
-
 </script>
 
 
