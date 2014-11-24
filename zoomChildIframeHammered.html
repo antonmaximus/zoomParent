@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid green;
+    border: 5px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -59,9 +59,21 @@ console.log(grannyLabel);
 
 grannyLabel.innerHTML = 'woo hoo';
 
+
+/* NOTE: As of Nov 2014, do not rely on viewport for iOS devices.
+    iOS does not recognize the screen as the viewport for pages
+    inside iframes. Instead, iOS uses the entire iframe dimension 
+    as the viewport for those inside iframes.
+*/
+
+
 var wrapper = document.getElementById('wrapper'), 
     targetImg = document.getElementById('targetImg'),
     thisBody = document.body,
+    initialImgWidth = parseInt(getComputedStyle(wrapper).width),
+    initialImgHeight = parseInt(getComputedStyle(wrapper).height),
+    minZoom = initialImgWidth,
+    maxZoom = minZoom * 2.5,
     rate = 0.33; // This slows down the response to pinch and pan
 
 
@@ -151,14 +163,11 @@ function resize (e, direction) {
     var delta = direction * Math.sqrt( (e.deltaY * e.deltaY) + (e.deltaX * e.deltaX) ); // Calculus formula
     var newWidth = imgWidth + (delta * rate);  // Slow the change down
 
-    var minZoom = viewportWidth,
-        maxZoom = viewportWidth * 2.5;
-
-    // if( newWidth < minZoom) {
-    //     newWidth = minZoom;
-    // } else if (newWidth > maxZoom) {
-    //     newWidth = maxZoom;
-    // }
+    if( newWidth < minZoom) {
+        newWidth = minZoom;
+    } else if (newWidth > maxZoom) {
+        newWidth = maxZoom;
+    }
 
     console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
     grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX
