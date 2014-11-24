@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid pink;
+    border: 5px solid green;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -172,6 +172,7 @@ function resize (e, direction) {
     console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
     grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX
         + ', <br>delta: ' + delta
+        + ', <br>frameWidth: ' + frameWidth + ', frameHeight: ' + frameHeight
         + ', <br>minZoom: ' + minZoom + ', maxZoom: ' + maxZoom 
         + ', <br>newWidth: ' + newWidth + ', <br>imgWidth: ' + imgWidth); 
     wrapper.style.width = newWidth  + 'px';
