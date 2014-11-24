@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid pink;
+    border: 5px solid blue;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -64,7 +64,6 @@ console.log(pops);
 console.log(parentLabel);
 console.log(grannyLabel);
 
-grannyLabel.innerHTML = 'woo hoo';
 
 
 /* NOTE: As of Nov 2014, do not rely on viewport for iOS devices.
@@ -89,8 +88,8 @@ var imgWidthBeforeResize = initialImgWidth,
     imgHeightBeforeResize = initialImgHeight;
 
 console.log(thisHTML);
-console.log('clientWidth: ' + document.documentElement.clientWidth);
-console.log('innerWidth: ' + window.innerWidt);
+grannyLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth 
+    + '<br> innerWidth: ' + window.innerWidth);
 
 
 granny.onload = function () {
