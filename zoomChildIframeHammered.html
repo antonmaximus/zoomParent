@@ -155,6 +155,7 @@ function resize (e, direction) {
         newWidth = maxZoom;
     }
 
+    console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
     wrapper.style.width = newWidth  + 'px';
     // thisBody.style.width = newWidth + 'px';
 
