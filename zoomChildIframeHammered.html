@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid purple;
+    border: 5px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -51,6 +51,7 @@ html, body {
 
 var pops = parent.document.getElementById('iframeElement');
 var parentLabel = parent.document.getElementById('parentLabel');
+var granny = window.top.document.getElementById('iframeElement');
 var grannyLabel = window.top.document.getElementById('grannyLabel');
 console.log(pops);
 console.log(parentLabel);
@@ -62,7 +63,7 @@ grannyLabel.innerHTML = 'woo hoo';
 
 pops.onload = function () {
     // Once content is available, get body
-    var iframeBody = pops.contentWindow.document.body;
+    var iframeBody = granny.contentWindow.document.body;
     var hammertime = new Hammer(iframeBody);
 
     // Register gestures as normal
