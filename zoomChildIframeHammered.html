@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid yellow;
+    border: 5px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -69,8 +69,8 @@ grannyLabel.innerHTML = 'woo hoo';
 
 /* NOTE: As of Nov 2014, do not rely on viewport for iOS devices.
     iOS does not recognize the screen as the viewport for pages
-    inside iframes. Instead, iOS uses the entire iframe dimension 
-    as the viewport for those inside iframes.
+    inside iframes, and it uses the entire iframe dimension 
+    as the viewport for objects inside iframes.
 */
 
 
@@ -84,7 +84,13 @@ var wrapper = document.getElementById('wrapper'),
     maxZoom = minZoom * 2.5,
     rate = 0.33; // This slows down the response to pinch and pan
 
+
+var imgWidthBeforeResize = initialImgWidth,
+    imgHeightBeforeResize = initialImgHeight;
+
 console.log(thisHTML);
+console.log('clientWidth: ' + document.documentElement.clientWidth);
+console.log('innerWidth: ' + window.innerWidt);
 
 
 granny.onload = function () {
@@ -108,53 +114,11 @@ granny.onload = function () {
 
 
 
-/* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
-/* image.  We use this approach because default scrolling will not work correctly
-/* due to Hammer.js */
-function panImage (e) {
-    parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
-    // These variables need to be local since orientation can change.
-    var imgWidth = parseInt(getComputedStyle(wrapper).width),
-        imgHeight = parseInt(getComputedStyle(wrapper).height),
-        // frameWidth & frameHeight: Use parent iframe's size by default.  Use viewport's size as fallback.
-        frameWidth = /*window.frameElement.offsetWidth ||*/ Math.max(document.documentElement.clientWidth, window.innerWidth || 0), 
-        frameHeight = /*window.frameElement.offsetHeight||*/ Math.max(document.documentElement.clientWidth, window.innerHeight || 0);
 
 
 
-    // Configure Horizontal Pan
-    var minLeft = 0,
-        maxLeft = frameWidth - imgWidth,
-        posLeft = parseInt(getComputedStyle(targetImg).left),
-        newLeft  =  posLeft + (e.deltaX * rate);
-
-    if(imgWidth < frameWidth || newLeft > minLeft) {
-        newLeft = minLeft ;
-    } else if (newLeft < maxLeft) {
-        newLeft = maxLeft;
-    }
-    targetImg.style.left = newLeft + 'px';
 
 
-    // Configure Vertical Pan
-    var minTop = 0,
-        maxTop = frameHeight - imgHeight,
-        posTop = parseInt(getComputedStyle(targetImg).top),
-        newTop  =  posTop + (e.deltaY * rate);
-
-    if(imgHeight < frameHeight || newTop > minTop) {
-        newTop = minTop ;
-    } else if (newTop < maxTop) {
-        newTop = maxTop;
-    }
-    targetImg.style.top = newTop + 'px';
-
-}
-
-
-
-var imgWidthBeforeResize = initialImgWidth,
-    imgHeightBeforeResize = initialImgHeight;
 
 function resize (e, direction) {
     // These variables need to be local due to orientation changing
@@ -201,6 +165,52 @@ function resize (e, direction) {
     // targetImg.style.top = newTop + 'px';
 
 }
+
+
+
+/* 'panImage' will modify left and top positions to appear that the user is scrolling on the 
+/* image.  We use this approach because default scrolling will not work correctly
+/* due to Hammer.js */
+function panImage (e) {
+    parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
+    // These variables need to be local since orientation can change.
+    var imgWidth = parseInt(getComputedStyle(wrapper).width),
+        imgHeight = parseInt(getComputedStyle(wrapper).height),
+        // frameWidth & frameHeight: Use parent iframe's size by default.  Use viewport's size as fallback.
+        frameWidth = /*window.frameElement.offsetWidth ||*/ Math.max(document.documentElement.clientWidth, window.innerWidth || 0), 
+        frameHeight = /*window.frameElement.offsetHeight||*/ Math.max(document.documentElement.clientWidth, window.innerHeight || 0);
+
+
+
+    // Configure Horizontal Pan
+    var minLeft = 0,
+        maxLeft = frameWidth - imgWidth,
+        posLeft = parseInt(getComputedStyle(targetImg).left),
+        newLeft  =  posLeft + (e.deltaX * rate);
+
+    if(imgWidth < frameWidth || newLeft > minLeft) {
+        newLeft = minLeft ;
+    } else if (newLeft < maxLeft) {
+        newLeft = maxLeft;
+    }
+    targetImg.style.left = newLeft + 'px';
+
+
+    // Configure Vertical Pan
+    var minTop = 0,
+        maxTop = frameHeight - imgHeight,
+        posTop = parseInt(getComputedStyle(targetImg).top),
+        newTop  =  posTop + (e.deltaY * rate);
+
+    if(imgHeight < frameHeight || newTop > minTop) {
+        newTop = minTop ;
+    } else if (newTop < maxTop) {
+        newTop = maxTop;
+    }
+    targetImg.style.top = newTop + 'px';
+
+}
+
 
 </script>
 
