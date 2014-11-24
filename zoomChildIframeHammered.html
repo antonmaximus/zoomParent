@@ -54,9 +54,12 @@ body {   border: 2px solid white; }
     to accommodate all of its contents -- a behavior different in iOS devices.
 */
 
+// window.body.style.backgroundColor = "#FF0000";
+console.log(window.document);
+console.log(parent.document);
 
 window.onload = function () {
-    var pops = parent.document.getElementById('iframeElement');
+    var pops = parent.document.getElementById('custom_iframe');
     var parentLabel = parent.document.getElementById('parentLabel');
     var granny = window.top.document.getElementById('iframeElement');
     var grannyLabel = window.top.document.getElementById('grannyLabel');
@@ -66,6 +69,8 @@ window.onload = function () {
 
     pops.style.width = '300px';
     pops.style.height = '280px';
+
+
 
 
     var wrapper = document.getElementById('wrapper'), 
@@ -82,8 +87,11 @@ window.onload = function () {
     var imgWidthBeforeResize = initialImgWidth,
         imgHeightBeforeResize = initialImgHeight;
 
-    var viewingWidth = initialImgWidth,
-        viewingHeight = initialImgHeight;
+    var viewingWidth = parseInt(pops.style.width),
+        viewingHeight = parseInt(pops.style.height);
+
+
+
 
     console.log(thisHTML);
 
