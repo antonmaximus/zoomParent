@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid yellow;
+    border: 5px solid pink;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -62,7 +62,8 @@ grannyLabel.innerHTML = 'woo hoo';
 
 
 granny.onload = function () {
-    pops.onload = function() {
+
+        console.log('all aboard');
         // Once content is available, get body
         var iframeBody = granny.contentWindow.document.body;
         var hammertime = new Hammer(iframeBody);
@@ -75,7 +76,6 @@ granny.onload = function () {
         hammertime.get('pinch').set({ enable: true }); //Pinch is disabled by default
         hammertime.on('pinchin', function(e){ resize(e, -1); });
         hammertime.on('pinchout', function(e){ resize(e, 1); });
-    }
 }
 
 
