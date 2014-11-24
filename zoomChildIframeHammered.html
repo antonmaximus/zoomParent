@@ -156,6 +156,7 @@ function resize (e, direction) {
     }
 
     console.log('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX); 
+    grannyLabel.innerHTML = ('deltaY: ' + e.deltaY + ', \ndeltaX: ' + e.deltaX + ', \ndelta: ' + delta); 
     wrapper.style.width = newWidth  + 'px';
     // thisBody.style.width = newWidth + 'px';
 
