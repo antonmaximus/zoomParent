@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid blue;
+    border: 5px solid yellow;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -88,7 +88,7 @@ var imgWidthBeforeResize = initialImgWidth,
     imgHeightBeforeResize = initialImgHeight;
 
 console.log(thisHTML);
-grannyLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth 
+parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth 
     + '<br> innerWidth: ' + window.innerWidth);
 
 
@@ -171,7 +171,7 @@ function resize (e, direction) {
 /* image.  We use this approach because default scrolling will not work correctly
 /* due to Hammer.js */
 function panImage (e) {
-    parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
+    // parentLabel.innerHTML = ('deltaY: ' + e.deltaY + ', deltaX: ' + e.deltaX);
     // These variables need to be local since orientation can change.
     var imgWidth = parseInt(getComputedStyle(wrapper).width),
         imgHeight = parseInt(getComputedStyle(wrapper).height),
@@ -207,6 +207,11 @@ function panImage (e) {
         newTop = maxTop;
     }
     targetImg.style.top = newTop + 'px';
+
+
+parentLabel.innerHTML = ('clientWidth: ' + document.documentElement.clientWidth 
+    + '<br> innerWidth: ' + window.innerWidth);
+
 
 }
 
