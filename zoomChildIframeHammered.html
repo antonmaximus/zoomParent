@@ -18,7 +18,7 @@ html, body {
 }
 
 #wrapper {
-    border: 5px solid pink;
+    border: 5px solid yellow;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -29,6 +29,13 @@ html, body {
     top: 0;
     left: 0;
     width: 100%;
+}
+
+html {
+    border: 3px solid red;
+}
+body {
+    border: 3px solid white;
 }
 
 </style>
@@ -146,20 +153,20 @@ function panImage (e) {
 
 
 
-    var imgWidth0 = parseInt(getComputedStyle(wrapper).width),
-        imgHeight = parseInt(getComputedStyle(wrapper).height);
+var imgWidthBeforeResize = initialImgWidth,
+    imgHeightBeforeResize = initialImgHeight;
 
 function resize (e, direction) {
     // These variables need to be local due to orientation changing
     // var imgWidth = parseInt(getComputedStyle(wrapper).width),
     //     imgHeight = parseInt(getComputedStyle(wrapper).height),
-    var imgWidth = imgWidth0,
+    var imgWidth = imgWidthBeforeResize,
         viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
         viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
     // Save ratio for keeping position intact
-    var ratioLeft = parseInt(getComputedStyle(targetImg).left) / imgWidth,
-        ratioTop = parseInt(getComputedStyle(targetImg).top) / imgHeight;   
+    var ratioLeft = parseInt(getComputedStyle(targetImg).left) / imgWidthBeforeResize,
+        ratioTop = parseInt(getComputedStyle(targetImg).top) / imgHeightBeforeResize;   
 
 
     var delta = direction * Math.sqrt( (e.deltaY * e.deltaY) + (e.deltaX * e.deltaX) ); // Calculus formula
