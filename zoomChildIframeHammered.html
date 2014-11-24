@@ -27,7 +27,7 @@ html, body, div, img {
 }
 
 html {
-    border: 3px solid red;
+    border: 3px solid green;
 }
 body {
     border: 3px solid white;
@@ -200,6 +200,12 @@ function panImage (e) {
         posTop = parseInt(getComputedStyle(targetImg).top),
         newTop  =  posTop + (e.deltaY * rate);
 
+    parentLabel.innerHTML  = ('wrapperHeight: ' + wrapperHeight
+        + '<br> deltaY: ' + deltaY
+        + '<br> posTop: ' + posTop + ', newTop: ' + newTop);
+
+
+
     // if(wrapperHeight < viewingHeight || newTop > minTop) {
     //     newTop = minTop ;
     // } else if (newTop < maxTop) {
@@ -208,9 +214,6 @@ function panImage (e) {
     targetImg.style.top = newTop + 'px';
 
 
-    parentLabel.innerHTML = ('wrapperHeight: ' + wrapperHeight
-        + '<br> deltaY: ' + deltaY
-        + '<br> posTop: ' + posTop + ', newTop: ' + newTop);
 
 
 }
