@@ -12,13 +12,8 @@ html, body, div, img {
     border: 0;
 }
 
-html, body {
-    background-color: purple;
-    border: 0px solid red;
-}
-
 #wrapper {
-    border: 5px solid red;
+    border: 5px solid green;
     position: relative;
 /*    height: 100vh;
     width: 100vw;*/
@@ -127,9 +122,9 @@ granny.onload = function () {
 
 function resize (e, direction) {
     // These variables need to be local due to orientation changing
-    var imgWidth = parseInt(getComputedStyle(wrapper).width),
-        imgHeight = parseInt(getComputedStyle(wrapper).height),
-    // var imgWidth = imgWidthBeforeResize,
+    var wrapperWidth = parseInt(getComputedStyle(wrapper).width),
+        wrapperHeight = parseInt(getComputedStyle(wrapper).height),
+    // var wrapperWidth = imgWidthBeforeResize,
         viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
         viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
@@ -139,7 +134,7 @@ function resize (e, direction) {
 
 
     var delta = direction * Math.sqrt( (e.deltaY * e.deltaY) + (e.deltaX * e.deltaX) ); // Calculus formula
-    var newWidth = imgWidth + (delta * rate);  // Slow the change down
+    var newWidth = wrapperWidth + (delta * rate);  // Slow the change down
 
     if( newWidth < minZoom) {
         newWidth = minZoom;
@@ -152,7 +147,7 @@ function resize (e, direction) {
         + ', <br>delta: ' + delta
         // + ', <br>frameWidth: ' + frameWidth + ', frameHeight: ' + frameHeight
         + ', <br>minZoom: ' + minZoom + ', maxZoom: ' + maxZoom 
-        + ', <br>newWidth: ' + newWidth + ', <br>imgWidth: ' + imgWidth); 
+        + ', <br>newWidth: ' + newWidth + ', <br>wrapperWidth: ' + wrapperWidth); 
     wrapper.style.width = newWidth  + 'px';
     thisBody.style.width = newWidth + 'px';
     thisHTML.style.width = newWidth + 'px';
